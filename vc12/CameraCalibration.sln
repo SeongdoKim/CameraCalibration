@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CameraCalibration", "CameraCalibration.vcxproj", "{D956E897-F5BE-42D5-9335-125D70C194E7}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CameraCalibration", "CameraCalibration.vcxproj", "{F499A550-8010-4D80-AD52-9B021F56A365}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +13,14 @@ Global
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D956E897-F5BE-42D5-9335-125D70C194E7}.Debug|Win32.ActiveCfg = Debug|Win32
-		{D956E897-F5BE-42D5-9335-125D70C194E7}.Debug|Win32.Build.0 = Debug|Win32
-		{D956E897-F5BE-42D5-9335-125D70C194E7}.Debug|x64.ActiveCfg = Debug|x64
-		{D956E897-F5BE-42D5-9335-125D70C194E7}.Debug|x64.Build.0 = Debug|x64
-		{D956E897-F5BE-42D5-9335-125D70C194E7}.Release|Win32.ActiveCfg = Release|Win32
-		{D956E897-F5BE-42D5-9335-125D70C194E7}.Release|Win32.Build.0 = Release|Win32
-		{D956E897-F5BE-42D5-9335-125D70C194E7}.Release|x64.ActiveCfg = Release|x64
-		{D956E897-F5BE-42D5-9335-125D70C194E7}.Release|x64.Build.0 = Release|x64
+		{F499A550-8010-4D80-AD52-9B021F56A365}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F499A550-8010-4D80-AD52-9B021F56A365}.Debug|Win32.Build.0 = Debug|Win32
+		{F499A550-8010-4D80-AD52-9B021F56A365}.Debug|x64.ActiveCfg = Debug|x64
+		{F499A550-8010-4D80-AD52-9B021F56A365}.Debug|x64.Build.0 = Debug|x64
+		{F499A550-8010-4D80-AD52-9B021F56A365}.Release|Win32.ActiveCfg = Release|Win32
+		{F499A550-8010-4D80-AD52-9B021F56A365}.Release|Win32.Build.0 = Release|Win32
+		{F499A550-8010-4D80-AD52-9B021F56A365}.Release|x64.ActiveCfg = Release|x64
+		{F499A550-8010-4D80-AD52-9B021F56A365}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
