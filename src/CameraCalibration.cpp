@@ -1,4 +1,5 @@
 #include "CameraCalibration.h"
+#include "utils.h"
 
 #include <boost/filesystem.hpp>
 
@@ -9,6 +10,7 @@ CameraCalibration::CameraCalibration() {
 }
 
 CameraCalibration::CameraCalibration(string filename) {
+	// TODO: read camera matrix and distortion coefficient from given file
 }
 
 CameraCalibration::~CameraCalibration() {
@@ -88,7 +90,11 @@ void CameraCalibration::saveCameraParams(const string& filename,
 	time_t tt;
 	time(&tt);
 	struct tm *t2 = new tm;
-	errno_t err = localtime_s(t2, &tt);
+#ifdef _WIN32
+	localtime_s(t2, &tt);
+#else
+	t2 = localtime(&tt);
+#endif
 	char buf[1024];
 	strftime(buf, sizeof(buf) - 1, "%c", t2);
 
@@ -185,15 +191,7 @@ bool CameraCalibration::calibrate(const Settings& settings) {
 		num_frames = filelist.size();
 
 	if (!settings.outputFoldername.empty()) {
-		// Check if output folder is exist
-		boost::filesystem::path p(settings.outputFoldername);
-		if (!boost::filesystem::exists(p)) {
-			if (!boost::filesystem::create_directory(p))
-				cout << "Failed to create output directory: " << settings.outputFoldername << endl;
-		}
-		else if (!boost::filesystem::is_directory(p)) {
-			cout << "Unable to write output images to given folder: " << settings.outputFoldername << endl;
-		}
+		checkFolder(settings.outputFoldername);
 	}
 
 	for (int i = 0, j = 0; i < filelist.size(); i++) {
@@ -238,7 +236,7 @@ bool CameraCalibration::calibrate(const Settings& settings) {
 			for (int i = 0; i < images.size(); i++) {
 				Mat output;
 				boost::filesystem::path filename(filelist[i].c_str());
-				boost::filesystem::path output_path(p.string() + string() + "/" + filename.stem().string() + "_undistort.png");
+				boost::filesystem::path output_path(p.string() + "/" + filename.stem().string() + "_undistort.png");
 				undistort(images[i], output, mCameraMatrix, mDistortCoeffs);
 				imwrite(output_path.string(), output);
 			}
@@ -248,6 +246,28 @@ bool CameraCalibration::calibrate(const Settings& settings) {
 	return true;
 }
 
-Mat CameraCalibration::undistortImage(const Mat& input) {
-	return Mat();
+void CameraCalibration::undistortImages(const string folderpath, const string outputFolderpath) {
+	if (mCameraMatrix.empty() || mDistortCoeffs.empty() ||
+		folderpath.empty() || outputFolderpath.empty())
+		return;
+
+	vector<String> filelist;
+
+	glob(folderpath, filelist);
+
+	if (!checkFolder(outputFolderpath))
+		return;
+
+	boost::filesystem::path p(outputFolderpath);
+
+	for (int i = 0; i < filelist.size(); i++) {
+		Mat image = imread(filelist[i]), output;
+		if (image.empty()) continue;
+
+		boost::filesystem::path filename(filelist[i].c_str());
+		boost::filesystem::path output_path(p.string() + "/" + filename.stem().string() + "_undistort.png");
+
+		undistort(image, output, mCameraMatrix, mDistortCoeffs);
+		imwrite(output_path.string(), output);
+	}
 }

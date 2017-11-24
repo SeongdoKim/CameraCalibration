@@ -48,6 +48,7 @@ vc12/build/
 vc12/bld/
 vc12/[Bb]in/
 vc12/[Oo]bj/
+build/
 
 # Roslyn cache directories
 vc12/*.ide/
@@ -98,3 +99,8 @@ vc12/packages/*
 ## TODO: If the tool you use requires repositories.config
 ## uncomment the next line
 #!packages/repositories.config
+
+# input/output test files
+output/
+vc12/output/
+*.yml

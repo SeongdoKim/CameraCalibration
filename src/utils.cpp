@@ -27,6 +27,21 @@ bool isValidFile(const string &filename) {
 	return true;
 }
 
+bool checkFolder(const std::string folderpath) {
+	boost::filesystem::path p(folderpath);
+	if (!boost::filesystem::exists(p)) {
+		if (!boost::filesystem::create_directory(p)) {
+			cout << "Failed to create the directory: " << folderpath << endl;
+			return false;
+		}
+	}
+	else if (!boost::filesystem::is_directory(p)) {
+		cout << "Invalid folder path: " << folderpath << endl;
+		return false;
+	}
+	return true;
+}
+
 bool read(boost::property_tree::ptree& ptree, std::string option, std::string &value) {
 	value = ptree.get<std::string>(option, "");
 	if (value.empty()) {

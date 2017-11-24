@@ -33,7 +33,7 @@ private:
 		std::vector<float>& reprojErrs,
 		double& totalAvgErr);
 
-	void CameraCalibration::saveCameraParams(const std::string& filename,
+	void saveCameraParams(const std::string& filename,
 		cv::Size imageSize, cv::Size boardSize,
 		float squareSize, float aspectRatio, int flags,
 		const std::vector<cv::Mat>& rvecs, const std::vector<cv::Mat>& tvecs,
@@ -56,7 +56,7 @@ public:
 	bool calibrate(const Settings& settings);
 
 	/**
-	 * Undistort the given image
+	 * Undistort images in the given folder
 	 */
-	cv::Mat undistortImage(const cv::Mat& input);
+	void undistortImages(const std::string folderpath, const std::string outputFolderpath);
 };

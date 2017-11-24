@@ -10,7 +10,11 @@ using namespace std;
 using namespace cv;
 
 int main(int argc, char **argv) {
-	string optionfile = "../option.ini";
+#ifdef _WIN32
+	string optionfile = "..\\option.ini";
+#else
+	string optionfile = "./option.ini";
+#endif
 
 	if (argc == 2) {
 		optionfile = string(argv[1]);
