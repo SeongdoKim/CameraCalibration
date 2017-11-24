@@ -104,3 +104,6 @@ vc12/packages/*
 output/
 vc12/output/
 *.yml
+
+# Special purpose
+CorrectRadialDistortion/

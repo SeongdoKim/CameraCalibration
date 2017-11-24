@@ -18,6 +18,11 @@ private:
 	 */
 	cv::Mat mDistortCoeffs;
 
+	/**
+	 * Size of the image
+	 */
+	cv::Size mImageSize;
+
 private:
 	static double computeReprojectionErrors(
 		const std::vector<std::vector<cv::Point3f>>& objectPoints,
@@ -32,6 +37,8 @@ private:
 		int flags, std::vector<cv::Mat>& rvecs, std::vector<cv::Mat>& tvecs,
 		std::vector<float>& reprojErrs,
 		double& totalAvgErr);
+
+	bool readCameraParams(const std::string& filename);
 
 	void saveCameraParams(const std::string& filename,
 		cv::Size imageSize, cv::Size boardSize,
@@ -51,6 +58,11 @@ public:
 	~CameraCalibration();
 
 	/**
+	 * Check if camera calibration matrix and distortion coefficients are correctly set
+	 */
+	bool isGood() const;
+
+	/**
 	 * Collect calibration images from given folder, then calibrate the camera
 	 */
 	bool calibrate(const Settings& settings);
@@ -58,5 +70,5 @@ public:
 	/**
 	 * Undistort images in the given folder
 	 */
-	void undistortImages(const std::string folderpath, const std::string outputFolderpath);
+	void undistortImages(const std::string folderpath, const std::string outputFolderpath) const;
 };

@@ -10,7 +10,7 @@ CameraCalibration::CameraCalibration() {
 }
 
 CameraCalibration::CameraCalibration(string filename) {
-	// TODO: read camera matrix and distortion coefficient from given file
+	readCameraParams(filename);
 }
 
 CameraCalibration::~CameraCalibration() {
@@ -75,6 +75,23 @@ bool CameraCalibration::runCalibration(vector<vector<Point2f>> imagePoints,
 		rvecs, tvecs, mCameraMatrix, mDistortCoeffs, reprojErrs);
 
 	return ok;
+}
+
+bool CameraCalibration::readCameraParams(const std::string& filename) {
+	FileStorage fs(filename, FileStorage::READ);
+	if (!fs.isOpened()) {
+		cout << "Could not open the configuration file: " << filename << endl;
+		return false;
+	}
+
+	fs["image_width"] >> mImageSize.width;
+	fs["image_height"] >> mImageSize.height;
+	fs["camera_matrix"] >> mCameraMatrix;
+	fs["distortion_coefficients"] >> mDistortCoeffs;
+
+	fs.release();
+
+	return true;
 }
 
 void CameraCalibration::saveCameraParams(const string& filename,
@@ -178,6 +195,11 @@ bool CameraCalibration::calibrate(const Settings& settings,
 	return ok;
 }
 
+bool CameraCalibration::isGood() const {
+	return !mCameraMatrix.empty() && mCameraMatrix.cols == 3 && mCameraMatrix.rows == 3 &&
+		!mDistortCoeffs.empty() && mDistortCoeffs.cols == 1 && mDistortCoeffs.rows >= 2;
+}
+
 bool CameraCalibration::calibrate(const Settings& settings) {
 	// read image files from given folder
 	int num_frames = settings.numFrames;
@@ -246,7 +268,7 @@ bool CameraCalibration::calibrate(const Settings& settings) {
 	return true;
 }
 
-void CameraCalibration::undistortImages(const string folderpath, const string outputFolderpath) {
+void CameraCalibration::undistortImages(const string folderpath, const string outputFolderpath) const {
 	if (mCameraMatrix.empty() || mDistortCoeffs.empty() ||
 		folderpath.empty() || outputFolderpath.empty())
 		return;
